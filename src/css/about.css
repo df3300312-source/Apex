@@ -1,0 +1,91 @@
+.about-section {
+  background: #020617; /* Deep Navy Base */
+}
+
+.mission-vision-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(13, 202, 240, 0.1);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.mission-vision-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #ffcc33;
+  transform: translateY(-5px);
+}
+
+.card-icon-circle {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 204, 51, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #ffcc33;
+  margin-bottom: 1.5rem;
+}
+
+/* Regulation Stripe Styling */
+.regulation-stripe {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 25, 47, 0.8) 0%,
+    rgba(2, 6, 23, 1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.regulation-stripe::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #ffcc33;
+}
+
+/* Mini Stats */
+.mini-stat-card {
+  background: rgba(13, 202, 240, 0.05);
+  border: 1px solid rgba(13, 202, 240, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.tracking-wider {
+  letter-spacing: 3px;
+}
+
+.avatar-blob {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(45deg, #ffcc33, #0dcaf0);
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.timeline-card,
+.mission-vision-card,
+.mini-stat-card {
+  transition: all 0.3s ease-in-out;
+}
+
+.timeline-card:hover,
+.mission-vision-card:hover {
+  transform: translateY(-10px);
+  border-color: #0dcaf0 !important;
+  background: rgba(13, 202, 240, 0.05) !important;
+}
+
+.trust-pill:hover {
+  background: rgba(13, 202, 240, 0.2) !important;
+}

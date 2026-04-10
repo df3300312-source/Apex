@@ -1,0 +1,170 @@
+/* Page Background */
+.transactions-page {
+  background-color: #020617;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+/* Filters Card - Enhanced Depth */
+.filters-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(13, 202, 240, 0.15);
+  padding: 24px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+}
+
+.filter-input {
+  background: rgba(2, 6, 23, 0.8) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  padding: 10px 15px !important;
+  transition: all 0.3s ease;
+}
+
+.filter-input:focus {
+  border-color: #0dcaf0 !important;
+  box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.1) !important;
+  background: rgba(2, 6, 23, 1) !important;
+}
+
+/* Search Wrapper Icon */
+.search-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0dcaf0; /* Themed color for better visibility */
+  opacity: 0.7;
+}
+
+.search-wrapper .filter-input {
+  padding-left: 40px !important;
+}
+
+/* Transactions Table Wrapper - Glass Effect */
+.transactions-table-wrapper {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 5px; /* Minimal padding for a cleaner look */
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #e2e8f0;
+}
+
+.transactions-table thead th {
+  padding: 20px 15px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b; /* Muted slate for headers */
+  background: rgba(2, 6, 23, 0.3);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(13, 202, 240, 0.1);
+}
+
+.transactions-table tbody td {
+  padding: 18px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.transactions-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.transactions-table tbody tr:hover {
+  background: rgba(13, 202, 240, 0.04);
+  transition: background 0.2s ease;
+}
+
+/* Status Badges - Glowing Effect */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.status-badge.completed {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.status-badge.pending {
+  background: rgba(234, 179, 8, 0.1);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.status-badge.failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Details & Icons */
+.type-cell {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.type-icon {
+  font-size: 1.2rem;
+  color: #0dcaf0;
+}
+
+.txid-cell {
+  font-family: "Fira Code", "Courier New", monospace; /* Modern dev font */
+  color: #475569;
+  font-size: 0.8rem;
+  letter-spacing: -0.5px;
+}
+
+/* Pagination - Professional Layout */
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 15px;
+  color: #94a3b8;
+}
+
+/* Custom Table Text Colors */
+.text-success {
+  color: #4ade80 !important;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+}
+
+.text-danger {
+  color: #f87171 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .transactions-table-wrapper {
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,59 @@
+.journey-section {
+  background: #020617ee; /* Deep Navy */
+  position: relative;
+}
+
+/* The Glass Container */
+.journey-glass-wrapper {
+  background: rgba(13, 202, 240, 0.03); /* Very subtle cyan tint */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #ffffff, #ffcc33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.stat-icon-mini {
+  color: #0dcaf0; /* Electric Cyan */
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.stat-label {
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+/* Vertical Dividers */
+.journey-item {
+  position: relative;
+}
+
+.stat-divider {
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(13, 202, 240, 0.3),
+    transparent
+  );
+}
+
+/* Hover Effect */
+.journey-item:hover .stat-number {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 10px rgba(255, 204, 51, 0.4));
+}

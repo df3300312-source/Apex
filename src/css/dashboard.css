@@ -1,0 +1,203 @@
+/* Dashboard Container */
+.dashboard-page {
+  background-color: #020617; /* Midnight Blue */
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+/* Stat Cards - Enhanced Glass-morphism */
+.stat-card-dash {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(13, 202, 240, 0.15);
+  padding: 25px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card-dash:hover {
+  transform: translateY(-8px);
+  border-color: #0dcaf0;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 15px 35px rgba(13, 202, 240, 0.1);
+}
+
+.stat-icon-dash {
+  font-size: 2.2rem;
+  color: #0dcaf0;
+  background: rgba(13, 202, 240, 0.1);
+  padding: 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 5px rgba(13, 202, 240, 0.3));
+}
+
+.stat-card-dash h6 {
+  color: #94a3b8; /* Slate Blue-Grey for label visibility */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+}
+
+.stat-card-dash h3 {
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1px;
+  color: #ffffff;
+  font-size: 1.75rem;
+}
+
+/* Quick Actions Wrapper */
+.quick-actions {
+  display: flex;
+  gap: 15px;
+  background: rgba(15, 23, 42, 0.4);
+  padding: 25px;
+  border-radius: 24px;
+  border: 1px dashed rgba(13, 202, 240, 0.25);
+  transition: border-color 0.3s ease;
+}
+
+.quick-actions:hover {
+  border-color: rgba(13, 202, 240, 0.5);
+}
+
+/* Section Cards (Data Containers) */
+.section-card {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.section-card h4 {
+  font-weight: 800;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.section-card h4::before {
+  content: "";
+  width: 5px;
+  height: 22px;
+  background: #0dcaf0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(13, 202, 240, 0.5);
+}
+
+/* Custom Table Styling - Visibility First */
+.dash-table {
+  color: #e2e8f0 !important; /* Off-white for readability */
+  vertical-align: middle;
+}
+
+.dash-table thead th {
+  background: transparent;
+  color: #64748b; /* Muted Slate */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid rgba(13, 202, 240, 0.1);
+  padding: 15px;
+}
+
+.dash-table tbody td {
+  background: transparent;
+  padding: 20px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.95rem;
+}
+
+.dash-table tbody tr:hover td {
+  background: rgba(13, 202, 240, 0.04);
+  color: #ffffff;
+}
+
+/* Badges - Vivid & Clear */
+.badge {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bg-success {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.bg-warning {
+  background-color: rgba(234, 179, 8, 0.1) !important;
+  color: #facc15 !important;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+/* Button Refinement */
+.btn-primary {
+  background: linear-gradient(135deg, #0dcaf0, #0891b2);
+  border: none;
+  color: #020617;
+  font-weight: 800;
+  padding: 12px 25px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #ffffff;
+  color: #020617;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 202, 240, 0.3);
+}
+
+/* Utilities */
+.text-info {
+  color: #0dcaf0 !important;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.text-info:hover {
+  opacity: 0.8;
+}
+
+/* Custom Scrollbar for responsiveness */
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(13, 202, 240, 0.3);
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .quick-actions {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .stat-card-dash {
+    padding: 20px;
+  }
+}

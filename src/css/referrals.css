@@ -1,0 +1,171 @@
+/* Page Background & Typography */
+.referrals-page {
+  background-color: #020617;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+/* Referral Stat Cards - Enhanced Depth */
+.stat-card-ref {
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.8),
+    rgba(15, 23, 42, 0.4)
+  );
+  border: 1px solid rgba(13, 202, 240, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card-ref:hover {
+  border-color: #0dcaf0;
+  transform: translateY(-8px);
+  background: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 15px 35px rgba(13, 202, 240, 0.1);
+}
+
+.stat-icon-ref {
+  font-size: 2.8rem;
+  color: #0dcaf0;
+  filter: drop-shadow(0 0 10px rgba(13, 202, 240, 0.3));
+}
+
+.stat-card-ref h6 {
+  color: #94a3b8; /* Slate gray for secondary label */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+}
+
+.stat-card-ref h3 {
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+}
+
+/* Referral Link Wrapper - "Protected" Look */
+.referral-link-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  background: rgba(2, 6, 23, 0.8);
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(13, 202, 240, 0.2);
+  transition: border-color 0.3s ease;
+}
+
+.referral-link-wrapper:hover {
+  border-color: #0dcaf0;
+}
+
+.referral-link-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #0dcaf0; /* Cyan for the link itself */
+  font-family: "Fira Code", "Courier New", monospace;
+  font-weight: 600;
+  padding: 10px;
+  outline: none;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-copy {
+  background: linear-gradient(135deg, #0dcaf0, #0891b2);
+  color: #020617;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: 12px 24px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.btn-copy:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 5px 15px rgba(13, 202, 240, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Table Refinement - Legibility Focus */
+.referrals-table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.referrals-table thead th {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 15px;
+  border: none;
+}
+
+.referrals-table tbody tr {
+  background: rgba(15, 23, 42, 0.4);
+  transition: all 0.2s ease;
+}
+
+.referrals-table tbody tr:hover {
+  background: rgba(13, 202, 240, 0.04);
+  transform: scale(1.005);
+}
+
+.referrals-table td {
+  padding: 18px 15px;
+  color: #e2e8f0; /* Off-white for high legibility */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+}
+
+.referrals-table td:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px 0 0 14px;
+  font-weight: 600;
+}
+
+.referrals-table td:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0 14px 14px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .referral-link-wrapper {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .btn-copy {
+    width: 100%;
+  }
+
+  .stat-card-ref {
+    flex-direction: column;
+    text-align: center;
+  }
+}

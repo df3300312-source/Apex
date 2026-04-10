@@ -1,0 +1,107 @@
+.partners-section {
+  background-color: #020617; /* Deep midnight background */
+  padding: 80px 0;
+  overflow: hidden; /* Crucial for the scroll effect */
+  position: relative;
+}
+
+.partners-header {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 10;
+}
+
+.partners-section h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff !important; /* Forces text to show on dark bg */
+  margin-bottom: 10px;
+}
+
+.brand-text {
+  color: #0dcaf0; /* Your Cyan accent */
+  text-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
+}
+
+.partners-subtitle {
+  color: #94a3b8 !important; /* Slate gray for readability */
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* The Marquee Window */
+.logos-wrapper {
+  width: 100%;
+  padding: 40px 0;
+  position: relative;
+  /* Adds a soft fade-out on the left and right edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+}
+
+/* The Moving Track */
+.logos-track {
+  display: flex;
+  align-items: center;
+  width: calc(250px * 10); /* Width of 1 logo * total logos in map */
+  animation: scrollMarquee 25s linear infinite;
+}
+
+.logos-track:hover {
+  animation-play-state: paused; /* Stops on hover for better UX */
+}
+
+.partner-logo {
+  width: 250px; /* Consistent spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.partner-logo img {
+  height: 45px; /* Consistent height for all logos */
+  width: auto;
+  max-width: 150px;
+  filter: brightness(0) invert(1); /* Turns all logos WHITE for dark theme */
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.partner-logo:hover img {
+  opacity: 1;
+  filter: brightness(1) invert(0); /* Optional: shows original color on hover */
+  transform: scale(1.1);
+}
+
+/* Animation Keyframes */
+@keyframes scrollMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 5)); /* Matches half the total logos */
+  }
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+  .partners-section h2 {
+    font-size: 1.8rem;
+  }
+  .partner-logo {
+    width: 180px;
+  }
+  @keyframes scrollMarquee {
+    100% {
+      transform: translateX(calc(-180px * 5));
+    }
+  }
+}

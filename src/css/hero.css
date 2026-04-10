@@ -1,0 +1,67 @@
+.hero-section {
+  background-color: #020617; /* Base dark color */
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-top: 4rem;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}
+/* This covers the entire right half of the section */
+.hero-image-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%; /* Occupies more than half for a nice overlap */
+  height: 100%;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 1;
+  /* The Secret Sauce: Masking the left edge so it blends into the blue/black */
+  mask-image: linear-gradient(to right, transparent 0%, black 40%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+  /* Matches the FinTech glow feel */
+  filter: brightness(1.1) contrast(1.1);
+  animation: subtleZoom 20s infinite alternate;
+}
+.brand-text {
+  display: block;
+  padding: 1rem 0;
+  color: #ffcc33;
+  text-shadow: 0 0 15px rgba(255, 204, 51, 0.4);
+}
+.stat-icon-box {
+  background: rgba(13, 110, 253, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  color: #0dcaf0;
+  font-size: 1.5rem;
+}
+
+/* Slow movement to make it feel alive */
+@keyframes subtleZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Mobile Fix: On small screens, move image behind text or hide it */
+@media (max-width: 991px) {
+  .hero-section {
+    padding-top: 2rem;
+  }
+  .hero-image-overlay {
+    width: 100%;
+    opacity: 0.3; /* Fade it out so text is readable */
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  }
+  .main-title {
+    font-size: 2.5rem;
+  }
+}

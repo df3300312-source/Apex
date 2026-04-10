@@ -1,0 +1,153 @@
+/* Page Background & Typography */
+.withdraw-page {
+  background-color: #020617; /* Deepest Midnight */
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+/* Balance Card: The Focal Point */
+.balance-card {
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.9),
+    rgba(13, 202, 240, 0.08)
+  );
+  border: 1px solid rgba(13, 202, 240, 0.25);
+  text-align: center;
+  padding: 45px 25px;
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.balance-amount {
+  font-size: 3.5rem; /* Larger for impact */
+  font-weight: 800;
+  color: #0dcaf0; /* Neon Cyan */
+  margin: 10px 0;
+  text-shadow: 0 0 30px rgba(13, 202, 240, 0.4);
+  letter-spacing: -1px;
+}
+
+.info-text {
+  color: #94a3b8; /* Slate Blue-Grey for secondary info */
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Form Section Styling */
+.section-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.form-label {
+  color: #e2e8f0;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  display: block;
+}
+
+/* Refined Form Controls */
+.withdraw-input {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(13, 202, 240, 0.2) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.withdraw-input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.withdraw-input:focus {
+  border-color: #0dcaf0 !important;
+  box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.15) !important;
+  background: rgba(15, 23, 42, 1) !important;
+  outline: none;
+}
+
+/* Select Option Visibility */
+.withdraw-input option {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 10px;
+}
+
+/* Action Button */
+.btn-withdraw {
+  background: linear-gradient(135deg, #0dcaf0, #0891b2);
+  color: #020617;
+  border: none;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-withdraw:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(13, 202, 240, 0.35);
+  filter: brightness(1.1);
+}
+
+.btn-withdraw:active {
+  transform: translateY(-1px);
+}
+
+/* Instructional List */
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-list li {
+  color: #cbd5e1;
+  padding-left: 28px;
+  position: relative;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.info-list li::before {
+  content: "→"; /* Professional arrow instead of dot */
+  color: #0dcaf0;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* Alert Overrides */
+.alert {
+  border-radius: 14px;
+  padding: 15px 20px;
+  border: 1px solid;
+  backdrop-filter: blur(10px);
+}
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}

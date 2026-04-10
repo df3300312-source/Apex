@@ -1,0 +1,183 @@
+/* Page Container */
+.deposit-page {
+  background-color: #020617;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+/* Plan Selection Cards - Improved Visual Hierarchy */
+.plan-card-deposit {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card-deposit:hover {
+  border-color: rgba(13, 202, 240, 0.4);
+  transform: translateY(-8px);
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.plan-card-deposit.selected {
+  border-color: #0dcaf0;
+  background: rgba(13, 202, 240, 0.08);
+  box-shadow: 0 0 25px rgba(13, 202, 240, 0.15);
+}
+
+/* Plan Icon & Header */
+.plan-icon {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px currentColor);
+  display: inline-block;
+}
+
+.plan-card-deposit h5 {
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+}
+
+/* Grid Details - Visibility Focus */
+.plan-details-deposit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 15px;
+}
+
+.plan-details-deposit .detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-details-deposit label {
+  font-size: 0.7rem;
+  color: #64748b; /* Muted label */
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.plan-details-deposit span {
+  font-size: 0.9rem;
+  color: #e2e8f0; /* Clear white-ish value */
+  font-weight: 600;
+}
+
+/* Selection Indicator Dot */
+.plan-card-deposit.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #0dcaf0;
+  color: #020617;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+/* Form Inputs - Professional Polish */
+.deposit-input {
+  background: rgba(2, 6, 23, 0.8) !important;
+  border: 1px solid rgba(13, 202, 240, 0.2) !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  font-size: 1rem;
+}
+
+.deposit-input:focus {
+  border-color: #0dcaf0 !important;
+  box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.15) !important;
+  background: rgba(2, 6, 23, 1) !important;
+}
+
+.deposit-input:disabled {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(148, 163, 184, 0.1) !important;
+  color: #475569 !important;
+  cursor: not-allowed;
+}
+
+/* Deposit Button */
+.btn-deposit {
+  background: linear-gradient(135deg, #0dcaf0, #0891b2);
+  color: #020617;
+  border: none;
+  font-weight: 800;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-deposit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(13, 202, 240, 0.35);
+  filter: brightness(1.1);
+}
+
+/* Payment Badges */
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.payment-badge {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+}
+
+.payment-badge:hover {
+  background: rgba(13, 202, 240, 0.1);
+  border-color: #0dcaf0;
+  color: #0dcaf0;
+  transform: scale(1.05);
+}
+
+/* High Visibility Alerts */
+.alert {
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-weight: 600;
+}
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}

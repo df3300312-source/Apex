@@ -1,0 +1,78 @@
+.services-section {
+  background-color: #020617;
+  overflow: hidden;
+}
+
+.service-card {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  height: 100%;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card:hover {
+  transform: translateY(-12px);
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(13, 202, 240, 0.3); /* Cyan highlight */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.service-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 202, 240, 0.1),
+    rgba(255, 204, 51, 0.1)
+  );
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.icon-inner {
+  font-size: 2rem;
+  background: linear-gradient(90deg, #0dcaf0, #ffcc33);
+  color: #ffcc33;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.service-card-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.service-card-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* A gold bar that slides in from the left on hover */
+.hover-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: #ffcc33;
+  transition: width 0.4s ease;
+}
+
+.service-card:hover .hover-indicator {
+  width: 100%;
+}
+
+.tracking-widest {
+  letter-spacing: 0.2em;
+}

@@ -1,0 +1,192 @@
+/* Plans Section */
+.plans-section {
+  background: #020617; /* Matches Hero Background */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base Card */
+.plan-card {
+  background: rgba(10, 25, 47, 0.6); /* Deep Navy Glass */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(13, 202, 240, 0.2); /* Subtle Cyan Border */
+  border-radius: 32px;
+  padding: 2rem 1.8rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Gradient border animation on hover (Now Gold/Cyan) */
+.plan-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ffcc33, #0dcaf0, #ffcc33);
+  border-radius: 34px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: -1;
+}
+
+.plan-card:hover::before {
+  opacity: 1;
+  animation: rotateBorder 3s linear infinite;
+}
+
+@keyframes rotateBorder {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(20deg);
+  } /* Keeps it within the gold/cyan spectrum */
+}
+
+.plan-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(13, 202, 240, 0.2);
+}
+
+/* Featured (Most Popular) card */
+.plan-card.featured {
+  border: 1px solid rgba(255, 204, 51, 0.5);
+  background: rgba(15, 35, 65, 0.8);
+  box-shadow: 0 0 30px rgba(255, 204, 51, 0.2);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(90deg, #ffcc33, #e6b800);
+  color: #000; /* Dark text on gold badge */
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(255, 204, 51, 0.5);
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 204, 51, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 204, 51, 0.7);
+  }
+}
+
+/* Icon (Cyan to Gold on hover) */
+.icon-wrapper {
+  width: 65px;
+  height: 65px;
+  background: rgba(13, 202, 240, 0.1);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #0dcaf0;
+  transition: all 0.3s;
+  border: 1px solid rgba(13, 202, 240, 0.3);
+}
+
+.plan-card:hover .icon-wrapper {
+  background: linear-gradient(135deg, #0dcaf0, #ffcc33);
+  color: #000;
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Category Badge */
+.category-badge {
+  background: rgba(13, 202, 240, 0.05);
+  color: #0dcaf0;
+  border: 1px solid rgba(13, 202, 240, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+/* ROI Text */
+.roi-text {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, #ffcc33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Buttons */
+.btn-gradient {
+  background: linear-gradient(90deg, #ffcc33, #e6b800);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 204, 51, 0.4);
+}
+
+.btn-outline-gradient {
+  background: transparent;
+  border: 2px solid #ffcc33;
+  color: #ffcc33;
+  font-weight: 700;
+}
+
+.btn-outline-gradient:hover {
+  background: #ffcc33;
+  color: #000;
+  transform: translateY(-3px);
+}
+.services-text {
+  background-image: url(../assets/image/Crypto.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  padding: 8rem 0;
+  margin-top: 1.5rem;
+  color: #efe467c2;
+  overflow: hidden;
+}
+.services-text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 6, 23, 0.2),
+    rgba(2, 6, 23, 0.5)
+  );
+  z-index: 1;
+}
+.services-text .container {
+  position: relative;
+  z-index: 2;
+}
+.texts {
+  color: #0dcaf0;
+}
+.text-span {
+  color: #e6b800;
+}
+.sub {
+  z-index: 10000;
+  color: rgba(255, 255, 255, 1);
+}

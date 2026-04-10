@@ -1,0 +1,178 @@
+/* Page Background & Global Typography */
+.settings-page {
+  background-color: #020617;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* Sidebar Styling - Glass-morphism focus */
+.settings-sidebar {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(13, 202, 240, 0.15);
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  backdrop-filter: blur(8px);
+}
+
+.sidebar-tab {
+  background: transparent;
+  border: none;
+  color: #94a3b8; /* Slate gray for inactive text */
+  padding: 14px 20px;
+  text-align: left;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-tab svg {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.sidebar-tab:hover {
+  background: rgba(13, 202, 240, 0.08);
+  color: #0dcaf0;
+  transform: translateX(4px);
+}
+
+.sidebar-tab.active {
+  background: #0dcaf0;
+  color: #020617; /* High contrast dark text on bright button */
+  box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);
+}
+
+/* Content Area & Cards */
+.settings-card {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 35px;
+  animation: fadeIn 0.5s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.settings-card h3 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.settings-card h5 {
+  color: #0dcaf0;
+  margin-bottom: 18px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Form Inputs - High Visibility */
+.settings-input {
+  background: rgba(2, 6, 23, 0.8) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.settings-input:focus {
+  border-color: #0dcaf0 !important;
+  box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.15) !important;
+  background: #020617 !important;
+}
+
+.form-label {
+  color: #cbd5e1; /* Lightened for better visibility */
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+/* Save Changes Button */
+.btn-save {
+  background: linear-gradient(135deg, #0dcaf0, #0891b2);
+  color: #020617;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 14px 35px;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(13, 202, 240, 0.2);
+}
+
+.btn-save:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(13, 202, 240, 0.4);
+  filter: brightness(1.1);
+}
+
+/* Checkbox Customization */
+.form-check {
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-check-input {
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: rgba(15, 23, 42, 1);
+  border: 1px solid rgba(13, 202, 240, 0.4);
+  cursor: pointer;
+}
+
+.form-check-label {
+  color: #e2e8f0 !important;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Tabs for Mobile */
+@media (max-width: 768px) {
+  .settings-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 8px;
+    gap: 5px;
+    scrollbar-width: none; /* Hide scrollbar for clean look */
+  }
+
+  .sidebar-tab {
+    padding: 10px 18px;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+}

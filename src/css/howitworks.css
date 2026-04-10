@@ -1,0 +1,84 @@
+.how-it-works {
+  background-color: #020617;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.connecting-line {
+  position: absolute;
+  top: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(13, 202, 240, 0.4) 20%,
+    rgba(13, 202, 240, 0.4) 80%,
+    transparent 100%
+  );
+  z-index: 0;
+}
+.process-card {
+  position: relative;
+  z-index: 2;
+}
+.icon-badge-wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 3;
+}
+.icon-badge {
+  width: 90px;
+  height: 90px;
+  background: #0a192f; /* Solid dark navy for better contrast */
+  border: 1px solid rgba(13, 202, 240, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #0dcaf0; /* Electric Cyan */
+  transition: all 0.4s ease;
+  backdrop-filter: blur(12px);
+}
+.step-count-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  background: #ffcc33; /* Apex Gold */
+  color: #000;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255, 204, 51, 0.4);
+  border: 2px solid #020617; /* Adds a gap between gold and cyan */
+}
+/* Hover Effects */
+.process-card:hover .icon-badge {
+  border-color: #ffcc33;
+  color: #ffcc33;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(13, 202, 240, 0.15);
+}
+.process-card:hover .step-count-circle {
+  background: #fff;
+  transform: scale(1.1) rotate(5deg);
+}
+.tracking-widest {
+  letter-spacing: 4px;
+}
+@media (max-width: 991px) {
+  .connecting-line {
+    display: none;
+  }
+  .process-card {
+    margin-bottom: 2rem;
+  }
+}
