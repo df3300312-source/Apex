@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // <-- added
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaRocket,
   FaGem,
@@ -7,108 +7,142 @@ import {
   FaChartPie,
   FaGlobe,
   FaBriefcase,
+  FaExclamationTriangle,
+  FaRedo,
 } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext"; // Integrated Auth
+import api from "../services/api";
 import "../css/plans.css";
 
 const InvestmentPlans = () => {
-  const navigate = useNavigate(); // <-- hook
+  const navigate = useNavigate();
+  const { user } = useAuth(); // Access global auth state
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Track network errors
 
-  const plans = [
-    {
-      id: "starter",
-      title: "Starter",
-      category: "Beginner",
-      icon: <FaRocket />,
-      min: 100,
-      max: 4999,
-      roi: 2,
-      duration: 7,
-      profit: "+14% total",
-      popularity: 40,
-      isHot: false,
-    },
-    {
-      id: "silver",
-      title: "Silver",
-      category: "Intermediate",
-      icon: <FaGem />,
-      min: 5000,
-      max: 14999,
-      roi: 2.5,
-      duration: 14,
-      profit: "+35% total",
-      popularity: 80,
-      isHot: true,
-    },
-    {
-      id: "gold",
-      title: "Gold",
-      category: "Advanced",
-      icon: <FaCrown />,
-      min: 15000,
-      max: 49999,
-      roi: 3,
-      duration: 30,
-      profit: "+90% total",
-      popularity: 60,
-      isHot: false,
-    },
-    {
-      id: "diamond",
-      title: "Diamond",
-      category: "Professional",
-      icon: <FaChartPie />,
-      min: 50000,
-      max: 99999,
-      roi: 3.5,
-      duration: 60,
-      profit: "+210% total",
-      popularity: 30,
-      isHot: false,
-    },
-    {
-      id: "institutional",
-      title: "Institutional",
-      category: "Enterprise",
-      icon: <FaGlobe />,
-      min: 100000,
-      max: 499999,
-      roi: 4.2,
-      duration: 90,
-      profit: "+378% total",
-      popularity: 20,
-      isHot: false,
-    },
-    {
-      id: "apex-vip",
-      title: "Apex VIP",
-      category: "High Net Worth",
-      icon: <FaBriefcase />,
-      min: 500000,
-      max: null, // Unlimited
-      roi: 5,
-      duration: 180,
-      profit: "+900% total",
-      popularity: 10,
-      isHot: false,
-    },
-  ];
-
-  const handleGetStarted = (plan) => {
-    // Navigate to deposit page, passing the plan object as state
-    navigate("/deposit", { state: { selectedPlan: plan } });
+  const getCategoryByAmount = (min) => {
+    if (min >= 500000) return "High Net Worth";
+    if (min >= 100000) return "Enterprise";
+    if (min >= 50000) return "Professional";
+    if (min >= 15000) return "Advanced";
+    if (min >= 5000) return "Intermediate";
+    return "Beginner";
   };
+
+  const getIconForPlan = (name) => {
+    const lower = name.toLowerCase();
+    if (lower.includes("starter")) return <FaRocket />;
+    if (lower.includes("silver")) return <FaGem />;
+    if (lower.includes("gold")) return <FaCrown />;
+    if (lower.includes("diamond")) return <FaChartPie />;
+    if (lower.includes("institutional")) return <FaGlobe />;
+    return <FaBriefcase />;
+  };
+
+  // 1. Optimized Data Fetching with error handling
+  const fetchPlans = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await api.get("/plans");
+
+      // Handle both direct array and { data: [] } structure
+      const rawData = res.data.data || res.data;
+
+      if (!Array.isArray(rawData)) throw new Error("Invalid format");
+
+      const mappedPlans = rawData.map((plan) => ({
+        id: String(plan.id),
+        title: plan.name,
+        category: getCategoryByAmount(plan.min_amount),
+        icon: getIconForPlan(plan.name),
+        min: parseFloat(plan.min_amount),
+        max: plan.max_amount ? parseFloat(plan.max_amount) : null,
+        roi: plan.roi_percent,
+        duration: plan.duration_days,
+        profit: `+${(parseFloat(plan.roi_percent) * plan.duration_days).toFixed(0)}% total`,
+        popularity:
+          plan.min_amount >= 5000 && plan.min_amount < 15000 ? 95 : 60, // Silver logic
+        isHot: plan.name.toLowerCase().includes("silver"),
+      }));
+
+      setPlans(mappedPlans);
+    } catch (err) {
+      console.error("Failed to load plans", err);
+      setError(
+        "Unable to connect to the investment server. Please check your internet.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPlans();
+  }, [fetchPlans]);
+
+  // 2. Navigation logic using Auth State
+  const handleGetStarted = (plan) => {
+    const planData = {
+      id: plan.id,
+      title: plan.title,
+      min: plan.min,
+      max: plan.max,
+      roi: plan.roi,
+      duration: plan.duration,
+      profit: plan.profit,
+      isHot: plan.isHot,
+      category: plan.category,
+    };
+
+    if (user) {
+      // User is already logged in
+      navigate("/deposit", { state: { selectedPlan: planData } });
+    } else {
+      // Guest: save plan and go to login
+      sessionStorage.setItem("selectedPlan", JSON.stringify(planData));
+      navigate("/login");
+    }
+  };
+
+  // 3. Loading UI
+  if (loading) {
+    return (
+      <div className="plans-loading-container text-center py-5">
+        <div className="spinner-border text-primary" role="status"></div>
+        <p className="text-white-50 mt-3">
+          Syncing current market portfolios...
+        </p>
+      </div>
+    );
+  }
+
+  // 4. Error UI (Solves the "Axios Error" blank screen issue)
+  if (error) {
+    return (
+      <div className="container text-center py-5">
+        <div className="alert alert-dark border-secondary p-5">
+          <FaExclamationTriangle size={40} className="text-warning mb-3" />
+          <h4 className="text-white">Connection Error</h4>
+          <p className="text-white-50">{error}</p>
+          <button className="btn btn-outline-primary mt-3" onClick={fetchPlans}>
+            <FaRedo className="me-2" /> Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="plans-section py-5">
       <div className="container py-5">
-        <div className="text-center mb-5 text-white">
+        <div className="text-center mb-5 text-white animate__animated animate__fadeIn">
           <h2 className="display-6 fw-bold">
-            Global Investment <span className="title-span">Portfolios</span>
+            Investment <span className="text-primary">Portfolios</span>
           </h2>
-          <p className="text-secondary mx-auto" style={{ maxWidth: "600px" }}>
-            Diversify your wealth with our tiered investment structures designed
-            for consistent growth and capital protection.
+          <p className="text-white-50 mx-auto" style={{ maxWidth: "600px" }}>
+            High-yield tiered structures designed for capital growth.
           </p>
         </div>
 
@@ -117,11 +151,10 @@ const InvestmentPlans = () => {
             <div className="col-xl-4 col-md-6" key={plan.id}>
               <div
                 className={`plan-card h-100 ${plan.isHot ? "featured" : ""}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {plan.isHot && (
                   <div className="popular-badge">
-                    <span>🔥 Most Popular</span>
+                    <span>🔥 Top Choice</span>
                   </div>
                 )}
 
@@ -133,49 +166,31 @@ const InvestmentPlans = () => {
                 <h3 className="plan-title text-white mb-2">{plan.title}</h3>
                 <h2 className="roi-text mb-1">
                   {plan.roi}%{" "}
-                  <small className="fs-6 text-white-50">Daily</small>
+                  <small className="fs-6 text-white-50">/ Day</small>
                 </h2>
-                <p className="text-info small mb-3">{plan.profit}</p>
+                <p className="text-info small mb-3">{plan.profit} Net Profit</p>
 
                 <div className="plan-details mb-4">
                   <div className="detail-item">
-                    <span>Investment Range</span>
-                    <span className="text-white">
+                    <span>Deposit Range</span>
+                    <span className="text-white fw-bold">
                       ${plan.min.toLocaleString()} –{" "}
-                      {plan.max ? "$" + plan.max.toLocaleString() : "Unlimited"}
+                      {plan.max ? "$" + plan.max.toLocaleString() : "∞"}
                     </span>
                   </div>
                   <div className="detail-item">
-                    <span>Contract Duration</span>
+                    <span>Duration</span>
                     <span className="text-white">{plan.duration} Days</span>
-                  </div>
-                  <div className="detail-item">
-                    <span>Compounding</span>
-                    <span className="text-info">Available</span>
-                  </div>
-                </div>
-
-                {/* Popularity bar */}
-                <div className="popularity-bar mb-4">
-                  <div className="bar-label">
-                    <small>Popularity</small>
-                    <small>{plan.popularity}%</small>
-                  </div>
-                  <div className="progress" style={{ height: "6px" }}>
-                    <div
-                      className="progress-bar bg-gradient"
-                      style={{ width: `${plan.popularity}%` }}
-                    ></div>
                   </div>
                 </div>
 
                 <button
                   className={`btn w-100 py-3 fw-bold rounded-3 ${
-                    plan.isHot ? "btn-gradient" : "btn-outline-gradient"
+                    plan.isHot ? "btn-primary" : "btn-outline-light"
                   }`}
-                  onClick={() => handleGetStarted(plan)} // <-- click handler
+                  onClick={() => handleGetStarted(plan)}
                 >
-                  Get Started
+                  Invest Now
                 </button>
               </div>
             </div>

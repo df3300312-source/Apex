@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import api from "../services/api";
 import {
   FaRocket,
   FaGem,
@@ -11,75 +12,106 @@ import {
 import "../css/deposit.css";
 
 const Deposit = () => {
-  const { user } = useAuth();
+  const location = useLocation();
+  const [plans, setPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [amount, setAmount] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
-  // Investment plans data (same as in InvestmentPlans component)
-  const plans = [
-    {
-      id: "starter",
-      title: "Starter",
-      min: 100,
-      max: 4999,
-      roi: 2,
-      duration: 7,
-      icon: <FaRocket />,
-      color: "#8a2be2",
-    },
-    {
-      id: "silver",
-      title: "Silver",
-      min: 5000,
-      max: 14999,
-      roi: 2.5,
-      duration: 14,
-      icon: <FaGem />,
-      color: "#c0c0c0",
-    },
-    {
-      id: "gold",
-      title: "Gold",
-      min: 15000,
-      max: 49999,
-      roi: 3,
-      duration: 30,
-      icon: <FaCrown />,
-      color: "#ffd700",
-    },
-    {
-      id: "diamond",
-      title: "Diamond",
-      min: 50000,
-      max: 99999,
-      roi: 3.5,
-      duration: 60,
-      icon: <FaChartPie />,
-      color: "#00ffff",
-    },
-    {
-      id: "institutional",
-      title: "Institutional",
-      min: 100000,
-      max: 499999,
-      roi: 4.2,
-      duration: 90,
-      icon: <FaGlobe />,
-      color: "#4caf50",
-    },
-    {
-      id: "apex-vip",
-      title: "Apex VIP",
-      min: 500000,
-      max: null,
-      roi: 5,
-      duration: 180,
-      icon: <FaBriefcase />,
-      color: "#ff007f",
-    },
-  ];
+  // Helper: assign icon based on plan name
+  const getIconForPlan = (name) => {
+    const lower = name.toLowerCase();
+    if (lower.includes("starter")) return <FaRocket />;
+    if (lower.includes("silver")) return <FaGem />;
+    if (lower.includes("gold")) return <FaCrown />;
+    if (lower.includes("diamond")) return <FaChartPie />;
+    if (lower.includes("institutional")) return <FaGlobe />;
+    if (lower.includes("vip")) return <FaBriefcase />;
+    return <FaRocket />;
+  };
+
+  // Helper: choose color based on plan name
+  const getColorForPlan = (name) => {
+    const lower = name.toLowerCase();
+    if (lower.includes("starter")) return "#8a2be2";
+    if (lower.includes("silver")) return "#c0c0c0";
+    if (lower.includes("gold")) return "#ffd700";
+    if (lower.includes("diamond")) return "#00ffff";
+    if (lower.includes("institutional")) return "#4caf50";
+    if (lower.includes("vip")) return "#ff007f";
+    return "#8a2be2";
+  };
+
+  // Fetch plans from backend with the implemented fix
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const res = await api.get("/plans");
+
+        // FIX IMPLEMENTED: Check if the array is in res.data.data or res.data
+        const rawPlans = Array.isArray(res.data) ? res.data : res.data.data;
+
+        if (!rawPlans || !Array.isArray(rawPlans)) {
+          throw new Error("Invalid data format received from server");
+        }
+
+        // Transform backend fields to frontend structure
+        const formattedPlans = rawPlans.map((plan) => ({
+          id: String(plan.id),
+          title: plan.name,
+          min: plan.min_amount,
+          max: plan.max_amount || null,
+          roi: plan.roi_percent,
+          duration: plan.duration_days,
+          icon: getIconForPlan(plan.name),
+          color: getColorForPlan(plan.name),
+          category: "",
+          profit: "",
+          popularity: 0,
+          isHot: false,
+        }));
+        setPlans(formattedPlans);
+      } catch (err) {
+        console.error("Failed to load plans", err);
+        setMessage({
+          type: "error",
+          text: "Could not load investment plans. Please refresh.",
+        });
+      } finally {
+        setLoadingPlans(false);
+      }
+    };
+    fetchPlans();
+  }, []);
+
+  // Load pre‑selected plan from navigation state or sessionStorage
+  useEffect(() => {
+    const fromState = location.state?.selectedPlan;
+    const fromSession = sessionStorage.getItem("selectedPlan");
+    let loadedPlanData = null;
+    if (fromState) loadedPlanData = fromState;
+    else if (fromSession) {
+      loadedPlanData = JSON.parse(fromSession);
+      sessionStorage.removeItem("selectedPlan");
+    }
+
+    if (loadedPlanData && plans.length > 0) {
+      // Compare as strings to be safe
+      const matchedPlan = plans.find(
+        (p) => String(p.id) === String(loadedPlanData.id),
+      );
+      if (matchedPlan) {
+        setSelectedPlan(matchedPlan);
+        setMessage({
+          type: "success",
+          text: `Plan "${matchedPlan.title}" selected. Enter amount to continue.`,
+        });
+        setTimeout(() => setMessage({ type: "", text: "" }), 3000);
+      }
+    }
+  }, [location.state, plans]);
 
   const handlePlanSelect = (plan) => {
     setSelectedPlan(plan);
@@ -126,28 +158,53 @@ const Deposit = () => {
       return;
     }
 
-    setLoading(true);
+    setSubmitting(true);
     setMessage({ type: "", text: "" });
 
-    // Simulate API call to create deposit
     try {
-      // In real app: await api.createDeposit({ planId: selectedPlan.id, amount: amountNum })
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Real API call to create deposit
+      const res = await api.post("/deposits", {
+        planId: selectedPlan.id,
+        amount: amountNum,
+      });
+
       setMessage({
         type: "success",
-        text: `Deposit of $${amountNum.toLocaleString()} into ${selectedPlan.title} plan initiated. Please complete payment.`,
+        text:
+          res.data.message ||
+          `Deposit request created. Please complete the payment.`,
       });
+
+      // If using NowPayments/Gateway, you would redirect here:
+      if (res.data.checkoutUrl) {
+        window.location.href = res.data.checkoutUrl;
+      }
+
       setSelectedPlan(null);
       setAmount("");
     } catch (err) {
+      console.error(err);
       setMessage({
         type: "error",
-        text: err.message || "Deposit failed. Please try again.",
+        text:
+          err.response?.data?.message || "Deposit failed. Please try again.",
       });
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
+
+  if (loadingPlans) {
+    return (
+      <div className="deposit-page py-4">
+        <div className="container text-center">
+          <div className="spinner-border text-info" role="status">
+            <span className="visually-hidden">Loading plans...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="deposit-page py-4">
@@ -158,7 +215,6 @@ const Deposit = () => {
         </p>
 
         <div className="row g-4">
-          {/* Plan Selection Cards */}
           <div className="col-lg-7">
             <div className="section-card">
               <h4>Select Investment Plan</h4>
@@ -191,7 +247,6 @@ const Deposit = () => {
             </div>
           </div>
 
-          {/* Deposit Form */}
           <div className="col-lg-5">
             <div className="section-card">
               <h4>Deposit Details</h4>
@@ -241,9 +296,9 @@ const Deposit = () => {
                   <button
                     type="submit"
                     className="btn btn-deposit w-100"
-                    disabled={loading}
+                    disabled={submitting}
                   >
-                    {loading ? "Processing..." : "Proceed to Deposit"}
+                    {submitting ? "Processing..." : "Proceed to Deposit"}
                   </button>
                   {message.text && (
                     <div
@@ -262,7 +317,6 @@ const Deposit = () => {
           </div>
         </div>
 
-        {/* Payment Methods Info */}
         <div className="row mt-4">
           <div className="col-12">
             <div className="section-card">
@@ -272,8 +326,6 @@ const Deposit = () => {
                 <span className="payment-badge">Ethereum (ETH)</span>
                 <span className="payment-badge">USDT (TRC20/ERC20)</span>
                 <span className="payment-badge">Binance Coin (BNB)</span>
-                <span className="payment-badge">Credit/Debit Card</span>
-                <span className="payment-badge">Bank Transfer</span>
               </div>
               <p className="text-white-50 small mt-3">
                 After clicking "Proceed to Deposit", you will receive payment

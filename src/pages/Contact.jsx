@@ -5,6 +5,7 @@ import {
   FaMapMarkerAlt,
   FaClock,
 } from "react-icons/fa";
+import api from "../services/api"; // ✅ Use your existing API helper
 import "../css/contacts.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -18,35 +19,49 @@ const Contact = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); // ✅ Added loading state
+  const [error, setError] = useState(""); // ✅ Added error state
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would call your API endpoint to send the message
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setLoading(true);
+    setError("");
+
+    try {
+      // ✅ Call the real backend API
+      await api.post("/contact", formData);
+
+      setSubmitted(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+
+      // Hide success message after 5 seconds
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      setError("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="contact-page ">
-      <Navbar></Navbar>
+    <div className="contact-page">
+      <Navbar />
       <div className="container py-4">
         <div className="text-center mb-5 text-white">
           <h1 className="display-5 fw-bold texts">
             Contact <span className="title-text text-span">Us</span>
           </h1>
           <p className="text-secondary mx-auto" style={{ maxWidth: "600px" }}>
-            Have questions? We're here to help. Reach out to our team anytime.
+            Reach out to our team. Your message will be sent directly to our
+            admin panel.
           </p>
         </div>
 
         <div className="row g-4">
-          {/* Contact Information Cards */}
           <div className="col-lg-5">
             <div className="contact-info-card h-100">
               <h3 className="info-title">Get in Touch</h3>
@@ -57,7 +72,7 @@ const Contact = () => {
                 <div className="info-item">
                   <FaEnvelope className="info-icon" />
                   <div>
-                    <h5>Email Us</h5>
+                    <h5>Support Inbox</h5>
                     <p>support@apexmarkets.com</p>
                     <p>info@apexmarkets.com</p>
                   </div>
@@ -90,16 +105,18 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="col-lg-7">
             <div className="contact-form-card">
               <h3 className="form-title">Send Us a Message</h3>
+
               {submitted && (
-                <div className="alert alert-success">
-                  Thank you! Your message has been sent. We'll get back to you
-                  shortly.
+                <div className="alert alert-success animate__animated animate__fadeIn">
+                  Success! Your message has been sent to the Admin Panel.
                 </div>
               )}
+
+              {error && <div className="alert alert-danger">{error}</div>}
+
               <form onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
@@ -147,8 +164,12 @@ const Contact = () => {
                     ></textarea>
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-submit">
-                      Send Message
+                    <button
+                      type="submit"
+                      className="btn btn-submit w-100"
+                      disabled={loading}
+                    >
+                      {loading ? "Sending..." : "Send Message"}
                     </button>
                   </div>
                 </div>
@@ -157,7 +178,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 };

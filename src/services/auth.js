@@ -1,74 +1,48 @@
-// Mock user storage
-let users = JSON.parse(localStorage.getItem("mockUsers")) || [];
+import API from "./api";
 
+// @desc    Log in user and store token
 export const login = async ({ email, password }) => {
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  const { data } = await API.post("/auth/login", { email, password });
 
-  const user = users.find((u) => u.email === email && u.password === password);
-  if (!user) {
-    throw new Error("Invalid email or password");
+  // data contains { token, user }
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
   }
-  const token = "mock-jwt-token-" + Date.now();
-  // Store user info in localStorage for profile retrieval
-  localStorage.setItem(
-    "mockUser",
-    JSON.stringify({ id: user.id, name: user.name, email: user.email }),
-  );
-  return {
-    token,
-    user: { id: user.id, name: user.name, email: user.email },
-  };
+
+  return data;
 };
 
+// @desc    Register new user and store token
 export const register = async ({ name, email, password, referral }) => {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-
-  const existing = users.find((u) => u.email === email);
-  if (existing) {
-    throw new Error("Email already registered");
-  }
-  const newUser = {
-    id: Date.now(),
+  const { data } = await API.post("/auth/register", {
     name,
     email,
     password,
-    referral: referral || null,
-    balance: 0,
-  };
-  users.push(newUser);
-  localStorage.setItem("mockUsers", JSON.stringify(users));
+    referral,
+  });
 
-  const token = "mock-jwt-token-" + Date.now();
-  // Store new user info
-  localStorage.setItem(
-    "mockUser",
-    JSON.stringify({
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-    }),
-  );
-  return {
-    token,
-    user: { id: newUser.id, name, email },
-  };
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+  }
+
+  return data;
 };
 
+// @desc    Clear server-side cookie and local storage
+export const logout = async () => {
+  try {
+    await API.post("/auth/logout");
+  } finally {
+    // Always clear local storage even if the network call fails
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
+};
+
+// @desc    Fetch current user profile data
 export const getProfile = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token");
-
-  // Retrieve stored user from localStorage
-  const storedUser = localStorage.getItem("mockUser");
-  if (!storedUser) throw new Error("User not found");
-
-  const user = JSON.parse(storedUser);
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    balance: 1250.75, // you can later fetch real balance from your backend
-  };
+  const { data } = await API.get("/auth/profile");
+  return data; // This will return the user object
 };

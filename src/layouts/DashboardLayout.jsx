@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom"; // 👈 add Outlet
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
   FaTachometerAlt,
@@ -13,10 +13,11 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import "../css/dashboardLayout.css";
+import Chatbot from "../components/Chatbot";
 
 const DashboardLayout = () => {
+  const { user, logout, isAdmin } = useAuth();
   // 👈 remove {children} parameter
-  const { user, logout } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -27,6 +28,7 @@ const DashboardLayout = () => {
     { path: "/transactions", name: "Transactions", icon: <FaHistory /> },
     { path: "/referrals", name: "Referrals", icon: <FaUsers /> },
     { path: "/settings", name: "Settings", icon: <FaCog /> },
+    isAdmin ? [{ path: "/admin", name: "Admin Panel", icon: <FaCog /> }] : [],
   ];
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -49,7 +51,7 @@ const DashboardLayout = () => {
         <nav className="sidebar-nav">
           {navItems.map((item) => (
             <Link
-              key={item.path}
+              key={item.path} // ← add this line
               to={item.path}
               className={`sidebar-link ${location.pathname === item.path ? "active" : ""}`}
               onClick={() => setSidebarOpen(false)}
@@ -83,6 +85,7 @@ const DashboardLayout = () => {
           <Outlet /> {/* 👈 This is the key fix – renders the child route */}
         </div>
       </main>
+      <Chatbot />
     </div>
   );
 };

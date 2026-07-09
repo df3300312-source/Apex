@@ -1,0 +1,187 @@
+/* --- Blog Listing Page --- */
+.blog-page,
+.blog-post-page {
+  background-color: #020617;
+}
+.blog-card {
+  background: rgb(10, 25, 47); /* Matching your .highlight-card */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(13, 202, 240, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  transform: translateY(-10px);
+  border-color: #ffcc33; /* Gold on hover */
+  background: rgba(15, 35, 65, 0.8);
+  box-shadow: 0 15px 35px rgba(255, 204, 51, 0.1);
+}
+
+.blog-card-img {
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gold tinted overlay for images */
+.blog-card-img::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(2, 6, 23, 0.7));
+}
+
+.blog-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-card-img img {
+  transform: scale(1.08);
+}
+
+.blog-card-body {
+  padding: 1.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-category {
+  display: inline-block;
+  background: rgba(255, 204, 51, 0.1); /* Ghost Gold */
+  color: #ffcc33;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 204, 51, 0.2);
+  border-radius: 8px;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+
+.blog-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.blog-card:hover .blog-title {
+  color: #ffcc33; /* Glows Gold on hover */
+  text-shadow: 0 0 15px rgba(255, 204, 51, 0.3);
+}
+
+.blog-excerpt {
+  color: #94a3b8; /* Professional Slate for readability */
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.blog-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b; /* Matching your table headers */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+  margin-top: auto;
+}
+
+/* --- Blog Detail Page --- */
+.blog-post-card {
+  background: rgba(255, 255, 255, 0.02); /* Matching table-wrapper */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 32px;
+  padding: 3rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.blog-post-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 2rem;
+}
+
+.blog-post-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+  margin: 1rem 0;
+}
+
+.blog-post-title span {
+  color: #ffcc33; /* Using your gold for emphasis */
+}
+
+.blog-post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.blog-post-content {
+  color: #e2e8f0; /* Matching your table cell color */
+  line-height: 1.9;
+  font-size: 1.15rem;
+}
+
+.blog-post-content h3 {
+  color: #ffffff;
+  font-weight: 800;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.blog-post-content h3::before {
+  content: "";
+  width: 4px;
+  height: 24px;
+  background: #ffcc33; /* Gold accent bar */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 204, 51, 0.4);
+}
+
+.blog-post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-content li::before {
+  content: "✦"; /* Elegant financial symbol */
+  color: #ffcc33;
+  margin-right: 10px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .blog-post-title {
+    font-size: 1.8rem;
+  }
+  .blog-post-card {
+    padding: 1.5rem;
+  }
+}

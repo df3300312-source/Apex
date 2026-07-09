@@ -1,0 +1,551 @@
+/* Stat Cards */
+.admin-stat-card {
+  background: rgba(10, 25, 47, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+.btn-action {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.btn-success-soft {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: none;
+}
+.btn-success-soft:hover {
+  background: #28a745;
+  color: #fff;
+}
+
+.btn-info-soft {
+  background: rgba(23, 162, 184, 0.1);
+  color: #17a2b8;
+  border: none;
+}
+.btn-info-soft:hover {
+  background: #17a2b8;
+  color: #fff;
+}
+
+.admin-custom-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(13, 202, 240, 0.2);
+}
+.bg-success-soft {
+  background: rgba(40, 167, 69, 0.15);
+  border: 1px solid rgba(40, 167, 69, 0.2);
+}
+.bg-warning-soft {
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+}
+.bg-danger-soft {
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+.btn-icon-sm {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+.btn-icon-sm:hover {
+  color: #fff;
+  background: #343a40;
+}
+.highlight-gold-border {
+  border: 1px solid rgba(255, 204, 51, 0.3);
+  background: rgba(255, 204, 51, 0.02);
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.stat-growth {
+  font-size: 0.75rem;
+  color: #185bb8;
+}
+
+/* Colors */
+.cyan-text {
+  color: #0dcaf0;
+}
+.gold-text {
+  color: #ffcc33;
+}
+.red-text {
+  color: #ef4444;
+}
+.white-text {
+  color: #ffffff;
+}
+
+/* Table Section Header */
+.table-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.table-title {
+  color: #020617;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-view-all {
+  background: transparent;
+  color: #0dcaf0;
+  border: 1px solid rgba(13, 202, 240, 0.3);
+  padding: 6px 15px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-view-all:hover {
+  background: rgba(13, 202, 240, 0.1);
+  border-color: #0dcaf0;
+}
+
+.date-display {
+  color: #141414;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+/* Container & Header */
+.admin-manage-container {
+  padding: 2rem;
+  background: #020617;
+  min-height: 100vh;
+}
+.admin-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+.admin-page-title {
+  color: #fff;
+  font-weight: 800;
+  margin: 0;
+}
+.admin-page-subtitle {
+  color: #64748b;
+  margin-top: 5px;
+}
+
+/* Buttons */
+.btn-gold-action {
+  background: #ffcc33;
+  color: #020617;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 204, 51, 0.2);
+}
+.btn-gold-action:hover {
+  transform: translateY(-2px);
+  background: #fff;
+}
+
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(2, 6, 23, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.admin-modal-card {
+  background: rgba(10, 25, 47, 0.95);
+  border: 1px solid rgba(255, 204, 51, 0.2);
+  width: 100%;
+  max-width: 500px;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header h3 {
+  color: #fff;
+  font-weight: 700;
+  margin: 0;
+}
+.modal-header p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.custom-admin-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.custom-admin-input:focus {
+  outline: none;
+  border-color: #ffcc33;
+  background: rgba(255, 204, 51, 0.05);
+}
+
+/* Badges */
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.role-badge.admin {
+  background: rgba(255, 204, 51, 0.1);
+  color: #ffcc33;
+  border: 1px solid #ffcc33;
+}
+.role-badge.user {
+  background: rgba(13, 202, 240, 0.1);
+  color: #0dcaf0;
+  border: 1px solid #0dcaf0;
+}
+/* Financial Text Styling */
+.deposit-text {
+  color: #22c55e; /* Green for incoming money */
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 700;
+}
+
+/* Client Info Alignment */
+.client-cell {
+  display: flex;
+  flex-direction: column;
+}
+.client-name {
+  color: #fff;
+  font-weight: 600;
+}
+.client-id {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* Plan Badge - Professional Box */
+.plan-badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  color: #e2e8f0;
+}
+
+/* Transaction ID Styling */
+.tx-hash {
+  color: #0dcaf0;
+  font-size: 0.8rem;
+  background: rgba(13, 202, 240, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Stats Summary Pill */
+.stats-summary-pill {
+  background: rgba(10, 25, 47, 0.8);
+  border: 1px solid rgba(255, 204, 51, 0.3);
+  padding: 8px 20px;
+  border-radius: 50px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.gold-text {
+  color: #ffcc33;
+  margin-left: 5px;
+}
+
+/* Table Action Buttons Override (In AdminTable) */
+.btn-approve {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid #22c55e;
+  transition: 0.3s;
+}
+.btn-approve:hover {
+  background: #22c55e;
+  color: #fff;
+}
+
+.btn-reject {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  transition: 0.3s;
+}
+.btn-reject:hover {
+  background: #ef4444;
+  color: #fff;
+}
+/* Outgoing Money Styling */
+.withdrawal-text {
+  color: #ef4444; /* Vivid Red for money leaving */
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 700;
+}
+
+.red-text {
+  color: #ef4444;
+  margin-left: 5px;
+}
+
+.danger-border {
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Method Badge */
+.method-badge {
+  background: rgba(13, 202, 240, 0.1);
+  color: #0dcaf0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(13, 202, 240, 0.2);
+}
+
+/* Loader Animation (Add if not present) */
+.admin-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #ffcc33;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 204, 51, 0.1);
+  border-left-color: #ffcc33;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Plan Management Specifics */
+.plan-name-cell {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.roi-badge {
+  background: rgba(13, 202, 240, 0.1);
+  color: #0dcaf0;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 800;
+  border: 1px solid rgba(13, 202, 240, 0.2);
+}
+
+.duration-text {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.infinity-symbol {
+  font-size: 1.2rem;
+  color: #64748b;
+  line-height: 1;
+}
+
+.form-row {
+  margin-bottom: 0.5rem;
+}
+
+/* Modal Footer Spacing */
+.modal-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 2rem;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.btn-submit-gold {
+  background: #ffcc33;
+  color: #020617;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.btn-submit-gold:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+/* Settings Page Styling */
+.settings-section-card {
+  padding: 1rem;
+}
+
+.settings-group-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-dot {
+  width: 8px;
+  height: 8px;
+  background: #ffcc33;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffcc33;
+}
+
+.icon-dot.cyan {
+  background: #0dcaf0;
+  box-shadow: 0 0 10px #0dcaf0;
+}
+
+.settings-label {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* Custom Switches */
+.gold-switch:checked {
+  background-color: #ffcc33 !important;
+  border-color: #ffcc33 !important;
+  box-shadow: 0 0 10px rgba(255, 204, 51, 0.4);
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.toggle-desc {
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  margin-left: 40px;
+}
+
+/* Alerts */
+.custom-alert {
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid;
+}
+
+.alert-gold {
+  background: rgba(255, 204, 51, 0.1);
+  color: #ffcc33;
+  border-color: rgba(255, 204, 51, 0.2);
+}
+
+.alert-gray {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.settings-actions {
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 2rem;
+}

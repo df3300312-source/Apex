@@ -219,7 +219,6 @@ const RiskDisclosure = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 };

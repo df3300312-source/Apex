@@ -325,7 +325,6 @@ const About = () => {
           </div>
         </div>
       </section>
-      <Footer></Footer>
     </main>
   );
 };

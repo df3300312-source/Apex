@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom"; // Added useSearchParams
 import { useAuth } from "../context/AuthContext";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaIdBadge,
+} from "react-icons/fa";
 import "../css/auth.css";
 
 const Register = () => {
+  const [searchParams] = useSearchParams(); // To catch ?ref=CODE from URL
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,25 +20,51 @@ const Register = () => {
     confirmPassword: "",
     referral: "",
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  // Automatically fill referral code if it's in the URL (?ref=ABCDE)
+  useEffect(() => {
+    const refCode = searchParams.get("ref");
+    if (refCode) {
+      setFormData((prev) => ({ ...prev, referral: refCode }));
+    }
+  }, [searchParams]);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError("");
+  };
+
+  const validateForm = () => {
+    if (formData.name.length < 3) {
+      setError("Full name must be at least 3 characters.");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return false;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+    if (!validateForm()) return;
+
     setError("");
     setLoading(true);
+
     try {
       await register({
         name: formData.name,
@@ -38,9 +72,22 @@ const Register = () => {
         password: formData.password,
         referral: formData.referral,
       });
-      navigate("/dashboard");
+
+      // Check if user came from clicking "Get Started" on a plan
+      const savedPlan = sessionStorage.getItem("selectedPlan");
+      if (savedPlan) {
+        sessionStorage.removeItem("selectedPlan");
+        navigate("/deposit", {
+          state: { selectedPlan: JSON.parse(savedPlan) },
+        });
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
-      setError(err.message || "Registration failed. Please try again.");
+      console.error("Registration Error:", err);
+      setError(
+        err.response?.data?.message || "Registration failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -56,8 +103,14 @@ const Register = () => {
                 <h2>Create Account</h2>
                 <p>Join ApexMarkets and start earning</p>
               </div>
-              {error && <div className="alert alert-danger">{error}</div>}
-              <form onSubmit={handleSubmit}>
+
+              {error && (
+                <div className="alert alert-danger animate__animated animate__shakeX">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="form-group">
                   <label className="form-label">Full Name</label>
                   <div className="input-icon-wrapper">
@@ -73,6 +126,7 @@ const Register = () => {
                     />
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label className="form-label">Email Address</label>
                   <div className="input-icon-wrapper">
@@ -88,6 +142,7 @@ const Register = () => {
                     />
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label className="form-label">Password</label>
                   <div className="input-icon-wrapper">
@@ -109,6 +164,7 @@ const Register = () => {
                     </span>
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label className="form-label">Confirm Password</label>
                   <div className="input-icon-wrapper">
@@ -124,25 +180,44 @@ const Register = () => {
                     />
                   </div>
                 </div>
+
                 <div className="form-group">
-                  <label className="form-label">Referral ID (Optional)</label>
-                  <input
-                    type="text"
-                    name="referral"
-                    className="form-control auth-input"
-                    placeholder="Enter referral code"
-                    value={formData.referral}
-                    onChange={handleChange}
-                  />
+                  <label className="form-label">Referral Code (Optional)</label>
+                  <div className="input-icon-wrapper">
+                    <FaIdBadge className="input-icon" />
+                    <input
+                      type="text"
+                      name="referral"
+                      className="form-control auth-input"
+                      placeholder="Enter referral code"
+                      value={formData.referral}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {searchParams.get("ref") && (
+                    <small className="text-success">
+                      {" "}
+                      Referral applied from link!{" "}
+                    </small>
+                  )}
                 </div>
+
                 <button
                   type="submit"
                   className="btn btn-auth w-100"
                   disabled={loading}
                 >
-                  {loading ? "Creating Account..." : "Sign Up"}
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2"></span>
+                      Creating Account...
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </form>
+
               <div className="auth-footer">
                 <p>
                   Already have an account? <Link to="/login">Sign In</Link>

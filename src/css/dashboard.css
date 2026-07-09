@@ -103,13 +103,13 @@
 
 /* Custom Table Styling - Visibility First */
 .dash-table {
-  color: #e2e8f0 !important; /* Off-white for readability */
+  color: #ffff !important; /* Off-white for readability */
   vertical-align: middle;
 }
 
 .dash-table thead th {
   background: transparent;
-  color: #64748b; /* Muted Slate */
+  color: #ffff; /* Muted Slate */
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -120,6 +120,7 @@
 
 .dash-table tbody td {
   background: transparent;
+  color: #ffffff;
   padding: 20px 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   font-size: 0.95rem;
@@ -127,7 +128,7 @@
 
 .dash-table tbody tr:hover td {
   background: rgba(13, 202, 240, 0.04);
-  color: #ffffff;
+  color: #0dcaf0;
 }
 
 /* Badges - Vivid & Clear */

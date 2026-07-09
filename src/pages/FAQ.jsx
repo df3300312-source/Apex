@@ -151,7 +151,6 @@ const FAQ = () => {
       </section>
 
       <Partners />
-      <Footer />
     </div>
   );
 };

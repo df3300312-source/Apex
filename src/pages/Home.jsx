@@ -4,7 +4,6 @@ import {
   FaArrowUp,
   FaExchangeAlt,
   FaWallet,
-  FaHandHoldingUsd,
 } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -18,7 +17,6 @@ import Services from "../components/Services";
 import Abouts from "../components/Abouts";
 import Testimonials from "../components/Testimonials";
 import CryptoPrices from "../components/CryptoPrices";
-import ContactCTA from "../components/ContactCTA";
 import Partners from "../components/Partners";
 import Footer from "../components/Footer";
 
@@ -222,9 +220,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <ContactCTA />
       <Partners></Partners>
-      <Footer></Footer>
     </>
   );
 };

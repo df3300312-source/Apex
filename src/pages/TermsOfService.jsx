@@ -289,7 +289,6 @@ const TermsOfService = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 };
