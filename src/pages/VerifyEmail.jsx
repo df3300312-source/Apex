@@ -1,39 +1,84 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import {
+  FaShieldAlt,
+  FaCheckCircle,
+  FaExclamationTriangle,
+} from "react-icons/fa";
+import "../css/verifyEmail.css";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  const token = searchParams.get("token");
-  const verified = searchParams.get("verified");
-  const error = searchParams.get("error");
+  const [status, setStatus] = useState("processing"); // processing | success | error
 
   useEffect(() => {
+    const verified = searchParams.get("verified");
+    const error = searchParams.get("error");
+    const token = searchParams.get("token");
+
     if (verified === "true") {
-      // Show success message and redirect to login after a moment
+      setStatus("success");
       setTimeout(() => navigate("/login?verified=true"), 3000);
     } else if (error) {
-      // Show error and redirect to login after a moment
-      setTimeout(() => navigate("/login?error=verification_failed"), 3000);
+      setStatus("error");
+      setTimeout(() => navigate(`/login?error=${error}`), 4000);
     } else if (token) {
-      // If token exists, we don't need to do anything here – backend handles it.
-      // The backend will redirect to login with ?verified=true or ?error=...
-      // We can just show a loading message.
+      setStatus("processing");
     }
-  }, [navigate, verified, error, token]);
+  }, [searchParams, navigate]);
 
   return (
-    <div className="container text-center mt-5">
-      {token && <p>Verifying your email, please wait...</p>}
-      {verified === "true" && (
-        <p className="text-success">Email verified! Redirecting to login...</p>
-      )}
-      {error && (
-        <p className="text-danger">
-          Verification failed. Please try again or contact support.
-        </p>
-      )}
+    <div className="security-verification-page">
+      <div className="security-terminal-card">
+        {/* Decorative background grid matrix lines */}
+        <div className="matrix-glow"></div>
+
+        {status === "processing" && (
+          <div className="verification-state animate-pulse">
+            <div className="icon-wrapper processing">
+              <FaShieldAlt className="shield-icon spin-slow" />
+            </div>
+            <h2 className="terminal-title">
+              Establishing <span className="gold-text">Secure Connection</span>
+            </h2>
+            <p className="terminal-subtitle">
+              Authorizing cryptographic token on the ledger network...
+            </p>
+            <div className="loading-bar-container">
+              <div className="loading-bar-progress"></div>
+            </div>
+          </div>
+        )}
+
+        {status === "success" && (
+          <div className="verification-state state-success">
+            <div className="icon-wrapper success">
+              <FaCheckCircle />
+            </div>
+            <h2 className="terminal-title">
+              Identity <span className="green-text">Authenticated</span>
+            </h2>
+            <p className="terminal-subtitle">
+              Node response 200 OK. Redirecting to your strategic terminal...
+            </p>
+          </div>
+        )}
+
+        {status === "error" && (
+          <div className="verification-state state-error">
+            <div className="icon-wrapper error">
+              <FaExclamationTriangle />
+            </div>
+            <h2 className="terminal-title">
+              Handshake <span className="red-text">Rejected</span>
+            </h2>
+            <p className="terminal-subtitle">
+              Verification token is invalid or expired. Re-routing safely...
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
