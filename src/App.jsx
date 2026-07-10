@@ -23,6 +23,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Register from "./pages/Register";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import VerifyEmail from "./pages/VerifyEmail";
 
 // Dashboard pages (inside dashboard folder)
 import Dashboard from "./dashboard/Dashboard";
@@ -64,6 +65,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Route>
 
         {/* Protected routes – wrapped in PrivateRoute + DashboardLayout */}
