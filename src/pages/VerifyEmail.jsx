@@ -1,38 +1,51 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import api from "../services/api"; // 👈 import your API client
 import {
   FaShieldAlt,
   FaCheckCircle,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import api from "../services/api";
 import "../css/verifyEmail.css";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const navigate = useNavigate();
   const [status, setStatus] = useState("processing"); // processing | success | error
 
   useEffect(() => {
-    const verified = searchParams.get("verified");
-    const error = searchParams.get("error");
-    const token = searchParams.get("token");
-
-    if (verified === "true") {
-      setStatus("success");
-      setTimeout(() => navigate("/login?verified=true"), 3000);
-    } else if (error) {
+    // If there's no token, show error and redirect
+    if (!token) {
       setStatus("error");
-      setTimeout(() => navigate(`/login?error=${error}`), 4000);
-    } else if (token) {
-      setStatus("processing");
+      setTimeout(() => navigate("/login?error=missing_token"), 3000);
+      return;
     }
-  }, [searchParams, navigate]);
+
+    // ✅ Call the backend verification API
+    const verifyEmail = async () => {
+      try {
+        const response = await api.get(`/auth/verify-email?token=${token}`);
+        // Backend returns JSON success
+        setStatus("success");
+        setTimeout(() => navigate("/login?verified=true"), 3000);
+      } catch (err) {
+        // Error from backend
+        setStatus("error");
+        const errorMsg = err.response?.data?.message || "Verification failed";
+        setTimeout(
+          () => navigate(`/login?error=${encodeURIComponent(errorMsg)}`),
+          4000,
+        );
+      }
+    };
+
+    verifyEmail();
+  }, [token, navigate]);
 
   return (
     <div className="security-verification-page">
       <div className="security-terminal-card">
-        {/* Decorative background grid matrix lines */}
         <div className="matrix-glow"></div>
 
         {status === "processing" && (
