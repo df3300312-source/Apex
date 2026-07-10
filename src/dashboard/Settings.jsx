@@ -10,6 +10,7 @@ const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
+  // Profile form state
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -25,9 +26,11 @@ const Settings = () => {
     confirmPassword: "",
   });
 
-  // 2FA
+  // 2FA state (updated)
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
-  const [twoFactorCode, setTwoFactorCode] = useState("");
+  const [qrCode, setQrCode] = useState(null); // QR code image data URL
+  const [secret, setSecret] = useState(null); // TOTP secret (base32)
+  const [otpCode, setOtpCode] = useState(""); // 6‑digit code from user
 
   // Notifications
   const [notifications, setNotifications] = useState({
@@ -39,7 +42,7 @@ const Settings = () => {
     pushWithdrawal: false,
   });
 
-  // Load data on mount
+  // Load profile on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,22 +62,32 @@ const Settings = () => {
     fetchData();
   }, []);
 
+  // ✅ Load 2FA status on mount (new)
+  useEffect(() => {
+    const fetch2FAStatus = async () => {
+      try {
+        const res = await api.get("/user/2fa/status");
+        setTwoFactorEnabled(res.data.enabled);
+      } catch (err) {
+        console.error("Failed to load 2FA status", err);
+      }
+    };
+    fetch2FAStatus();
+  }, []);
+
   // Profile update
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Re-enabled loading for UX
+    setLoading(true);
     try {
       const res = await api.put("/user/profile", profile);
-
-      // If backend returns the updated user, sync it globally
       if (res.data.user) {
         updateUser(res.data.user);
       }
-
       setMessage({ type: "success", text: "Profile updated successfully!" });
     } catch (err) {
       setMessage({
-        type: "danger", // Changed to 'danger' to match Bootstrap alert classes
+        type: "danger",
         text: err.response?.data?.message || "Update failed",
       });
     } finally {
@@ -120,27 +133,42 @@ const Settings = () => {
     }
   };
 
-  // 2FA enable
+  // ─── 2FA logic (new) ────────────────────────────────────────────
+
+  // Enable 2FA: first generate secret & QR, then verify with OTP
   const handleEnable2FA = async (e) => {
     e.preventDefault();
-    if (!twoFactorCode || twoFactorCode.length !== 6) {
-      setMessage({ type: "error", text: "Enter a 6‑digit code." });
+    if (!otpCode || otpCode.length !== 6) {
+      setMessage({ type: "error", text: "Please enter a valid 6‑digit code." });
       return;
     }
     setLoading(true);
     try {
-      await api.post("/user/2fa/enable", { code: twoFactorCode });
+      // Secret must be stored in state from the generation step
+      if (!secret) {
+        setMessage({ type: "error", text: "Please generate a QR code first." });
+        return;
+      }
+      await api.post("/user/2fa/enable", { code: otpCode, secret });
       setTwoFactorEnabled(true);
-      setMessage({ type: "success", text: "2FA enabled!" });
-      setTwoFactorCode("");
+      setQrCode(null);
+      setSecret(null);
+      setOtpCode("");
+      setMessage({ type: "success", text: "2FA enabled successfully!" });
     } catch (err) {
-      setMessage({ type: "error", text: "Invalid code." });
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Invalid verification code.",
+      });
     } finally {
       setLoading(false);
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     }
   };
+
+  // Disable 2FA
   const handleDisable2FA = async () => {
+    if (!window.confirm("Are you sure you want to disable 2FA?")) return;
     setLoading(true);
     try {
       await api.post("/user/2fa/disable");
@@ -150,6 +178,20 @@ const Settings = () => {
       setMessage({ type: "error", text: "Failed to disable 2FA." });
     } finally {
       setLoading(false);
+      setTimeout(() => setMessage({ type: "", text: "" }), 3000);
+    }
+  };
+
+  // Generate QR code / secret (called when user clicks "Enable 2FA")
+  const handleGenerateQR = async () => {
+    try {
+      const res = await api.get("/user/2fa/generate");
+      setSecret(res.data.secret);
+      setQrCode(res.data.qrCode);
+      setMessage({ type: "success", text: "QR code generated. Scan it now." });
+      setTimeout(() => setMessage({ type: "", text: "" }), 3000);
+    } catch (err) {
+      setMessage({ type: "error", text: "Failed to generate 2FA secret." });
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     }
   };
@@ -479,7 +521,6 @@ const Settings = () => {
                           }
                         >
                           <option value="">Select Time Zone</option>
-
                           <option value="America/New_York">
                             Eastern Time (ET)
                           </option>
@@ -507,7 +548,6 @@ const Settings = () => {
                           <option value="America/Mexico_City">
                             Mexico City (CST)
                           </option>
-
                           <option value="Europe/London">
                             London (GMT/BST)
                           </option>
@@ -523,7 +563,6 @@ const Settings = () => {
                           </option>
                           <option value="Europe/Zurich">Zurich (CET)</option>
                           <option value="Europe/Moscow">Moscow (MSK)</option>
-
                           <option value="Africa/Lagos">Lagos (WAT)</option>
                           <option value="Africa/Cairo">Cairo (EET)</option>
                           <option value="Africa/Johannesburg">
@@ -531,7 +570,6 @@ const Settings = () => {
                           </option>
                           <option value="Africa/Nairobi">Nairobi (EAT)</option>
                           <option value="Africa/Accra">Accra (GMT)</option>
-
                           <option value="Asia/Dubai">Dubai (GST)</option>
                           <option value="Asia/Kolkata">India (IST)</option>
                           <option value="Asia/Karachi">Pakistan (PKT)</option>
@@ -546,7 +584,6 @@ const Settings = () => {
                           <option value="Asia/Shanghai">China (CST)</option>
                           <option value="Asia/Seoul">Seoul (KST)</option>
                           <option value="Asia/Tokyo">Tokyo (JST)</option>
-
                           <option value="Australia/Sydney">
                             Sydney (AEST)
                           </option>
@@ -554,7 +591,6 @@ const Settings = () => {
                           <option value="Pacific/Auckland">
                             Auckland (NZST)
                           </option>
-
                           <option value="America/Sao_Paulo">
                             São Paulo (BRT)
                           </option>
@@ -563,7 +599,6 @@ const Settings = () => {
                           </option>
                           <option value="America/Bogota">Bogotá (COT)</option>
                           <option value="America/Lima">Lima (PET)</option>
-
                           <option value="UTC">
                             UTC (Coordinated Universal Time)
                           </option>
@@ -648,41 +683,75 @@ const Settings = () => {
                 </div>
               )}
 
-              {/* ========= TWO-FACTOR AUTH TAB ========= */}
+              {/* ========= TWO-FACTOR AUTH TAB (Updated) ========= */}
               {activeTab === "2fa" && (
                 <div className="settings-card">
                   <h3>Two-Factor Authentication</h3>
                   {!twoFactorEnabled ? (
-                    <form onSubmit={handleEnable2FA}>
-                      <p className="text-white-50">
-                        Use an authenticator app like Google Authenticator.
-                      </p>
-                      <div className="qr-placeholder">
-                        <div className="mock-qr">[QR Code]</div>
-                        <p className="small text-white-50">
-                          Secret Key: <code>ABCD EFGH IJKL MNOP</code>
-                        </p>
-                      </div>
-                      <div className="mb-3">
-                        <label>Verification Code</label>
-                        <input
-                          type="text"
-                          className="form-control settings-input"
-                          placeholder="6-digit code"
-                          value={twoFactorCode}
-                          onChange={(e) => setTwoFactorCode(e.target.value)}
-                          maxLength="6"
-                          required
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="btn btn-save"
-                        disabled={loading}
-                      >
-                        {loading ? "Verifying..." : "Enable 2FA"}
-                      </button>
-                    </form>
+                    <>
+                      {!qrCode ? (
+                        <div>
+                          <p className="text-white-50">
+                            Enhance your account security by enabling 2FA. Use
+                            an authenticator app like Google Authenticator or
+                            Authy.
+                          </p>
+                          <button
+                            className="btn btn-save"
+                            onClick={handleGenerateQR}
+                            disabled={loading}
+                          >
+                            Enable 2FA
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-white-50">
+                            Scan this QR code with your authenticator app:
+                          </p>
+                          <div className="qr-container">
+                            <img
+                              src={qrCode}
+                              alt="QR Code"
+                              style={{ maxWidth: "200px", margin: "0 auto" }}
+                            />
+                          </div>
+                          <p className="text-white-50">
+                            Or enter this secret manually: <code>{secret}</code>
+                          </p>
+                          <div className="mb-3">
+                            <label className="form-label">
+                              Verification Code
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control settings-input"
+                              placeholder="Enter 6-digit code from app"
+                              value={otpCode}
+                              onChange={(e) => setOtpCode(e.target.value)}
+                              maxLength="6"
+                            />
+                          </div>
+                          <button
+                            className="btn btn-save"
+                            onClick={handleEnable2FA}
+                            disabled={loading}
+                          >
+                            {loading ? "Verifying..." : "Verify & Enable"}
+                          </button>
+                          <button
+                            className="btn btn-secondary ms-2"
+                            onClick={() => {
+                              setQrCode(null);
+                              setSecret(null);
+                              setOtpCode("");
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <div>
                       <div className="alert alert-success">
