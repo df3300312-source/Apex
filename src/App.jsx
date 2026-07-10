@@ -20,6 +20,7 @@ import TermsOfService from "./pages/TermsOfService";
 import RiskDisclosure from "./pages/RiskDisclosure";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Register from "./pages/Register";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
@@ -62,6 +63,7 @@ function App() {
           <Route path="/risk" element={<RiskDisclosure />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />

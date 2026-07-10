@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaArrowLeft } from "react-icons/fa";
+import api from "../services/api"; // your axios instance
 import "../css/auth.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, call your backend forgot-password API here
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    try {
+      await api.post("/auth/forgot-password", { email });
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,6 +34,8 @@ const ForgotPassword = () => {
                 <h2>Reset Password</h2>
                 <p>Enter your email to receive a reset link</p>
               </div>
+
+              {error && <div className="alert alert-danger">{error}</div>}
 
               {!submitted ? (
                 <form onSubmit={handleSubmit}>
@@ -40,8 +53,12 @@ const ForgotPassword = () => {
                       />
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-auth w-100">
-                    Send Reset Link
+                  <button
+                    type="submit"
+                    className="btn btn-auth w-100"
+                    disabled={loading}
+                  >
+                    {loading ? "Sending..." : "Send Reset Link"}
                   </button>
                 </form>
               ) : (
