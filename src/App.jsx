@@ -25,6 +25,7 @@ import Register from "./pages/Register";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import VerifyEmail from "./pages/VerifyEmail";
+import ResendVerification from "./pages/ResendVerification";
 
 // Dashboard pages (inside dashboard folder)
 import Dashboard from "./dashboard/Dashboard";
@@ -68,6 +69,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/resend-verification" element={<ResendVerification />} />
         </Route>
 
         {/* Protected routes – wrapped in PrivateRoute + DashboardLayout */}

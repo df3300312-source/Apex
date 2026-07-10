@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import api from "../services/api"; // ✅ Import for resend verification
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import "../css/auth.css";
 
@@ -13,6 +14,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showResend, setShowResend] = useState(false);
+  const [resendMessage, setResendMessage] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -51,6 +55,8 @@ const Login = () => {
 
     setError("");
     setLoading(true);
+    setShowResend(false); // Reset resend state on new attempt
+    setResendMessage("");
 
     try {
       const response = await login({
@@ -78,12 +84,35 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Login Error:", err);
-      setError(
-        err.response?.data?.message ||
-          "Invalid email or password. Please try again.",
-      );
+      const status = err.response?.status;
+      const message = err.response?.data?.message;
+
+      // ✅ If error is 403 (unverified email), show resend option
+      if (status === 403) {
+        setError(message || "Please verify your email before logging in.");
+        setShowResend(true);
+      } else {
+        setError(message || "Invalid email or password. Please try again.");
+        setShowResend(false);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    setResendMessage("");
+    setResendLoading(true);
+    try {
+      await api.post("/auth/resend-verification", { email: formData.email });
+      setResendMessage("A new verification link has been sent to your email.");
+      setShowResend(false); // Optionally hide button after success
+    } catch (err) {
+      setResendMessage(
+        err.response?.data?.message || "Failed to resend verification.",
+      );
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -101,6 +130,24 @@ const Login = () => {
               {error && (
                 <div className="alert alert-danger animate__animated animate__shakeX">
                   {error}
+                </div>
+              )}
+
+              {/* ✅ Resend Verification Section */}
+              {showResend && (
+                <div className="mt-2 mb-3">
+                  <button
+                    className="btn btn-link text-info p-0"
+                    onClick={handleResendVerification}
+                    disabled={resendLoading}
+                  >
+                    {resendLoading ? "Sending..." : "Resend Verification Email"}
+                  </button>
+                  {resendMessage && (
+                    <div className="alert alert-success mt-2">
+                      {resendMessage}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -156,7 +203,6 @@ const Login = () => {
                     />
                     <span>Remember me</span>
                   </label>
-                  {/* Link updated to ensure it's pointing to the correct route */}
                   <Link
                     to="/forgot-password"
                     style={{
