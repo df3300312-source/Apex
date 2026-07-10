@@ -5,6 +5,7 @@ import {
   FaCheckCircle,
   FaExclamationTriangle,
 } from "react-icons/fa";
+import api from "../services/api";
 import "../css/verifyEmail.css";
 
 const VerifyEmail = () => {
